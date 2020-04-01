@@ -50,7 +50,13 @@ class SavingsController extends Controller
                 ->addColumn('address', function ($row) {
                     return $row->share->address;
                 })
-                ->rawColumns(['view', 'edit', 'delete', 'no', 'name', 'contact_no', 'address'])
+                ->addColumn('money', function($row){
+                    return "Rs ".$row->money;
+                })
+                ->addColumn('interest', function($row){
+                    return $row->interest." %";
+                })
+                ->rawColumns(['view', 'edit', 'delete', 'no', 'name', 'contact_no', 'address', 'money', 'interest'])
                 ->make(true);
         }
         return view('savings.index');

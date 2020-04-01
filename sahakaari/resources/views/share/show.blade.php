@@ -15,6 +15,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="tile">
+            <button class="btn btn-sm btn-primary float-right mb-3" data-toggle="modal" data-target="#change-balance"><i class="fa fa-plus-circle fa-fw"></i> सेयर थप्नुहोस्</button>
             <div class="tile-title">
               <h3 class="text-center">
                 सेयर खाताको विवरण
@@ -27,7 +28,6 @@
                     <th>रसिद नम्बर</th>
                     <th>विवरण</th>
                     <th>सेयर कित्ता</th>
-                    <th>डेबिट</th>
                     <th>क्रेडिट</th>
                     <th>ब्यालेन्स</th>
                     <th>कैफियत</th>
@@ -40,7 +40,6 @@
                       <td><span class="badge badge-pill badge-success">{{ $balance->receipt }}</span></td>
                       <td>{{ $balance->description }}</td>
                       <td>{{ $balance->kittaa }}</td>
-                      <td>Rs. {{ ($balance->withdraw == null) ? 0 : $balance->withdraw }}</td>
                       <td>Rs. {{ ($balance->deposit == null) ? 0 : $balance->deposit }}</td>
                       <td>Rs. {{ $balance->balance }}</td>
                       <td>{{ $balance->remarks }}</td>
@@ -105,14 +104,102 @@
           </div>
         </div>
       </div>
-
     </div>
+
+    <!-- Modal -->
+    <div class="modal" id="change-balance">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-radius: 0px;">
+          <div class="modal-header bg-primary">
+            <h5 class="modal-title text-white">सेयर थप्न फारम</h5>
+            <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          </div>
+          <form action="{{ route('share.balance', $share->id) }}" method="POST">
+            @csrf
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="control-label">विवरण</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-sticky-note"></i></span>
+                  </div>
+                  <input type="text" name="description"
+                      class="form-control" placeholder="विवरण">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">रसीद नम्बर</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-receipt"></i></span>
+                    </div>
+                    <input type="number" name="receipt"
+                      class="form-control" placeholder="रसीद नम्बर" value="{{ old('receipt') }}">
+                  </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">सेयर कित्ता</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-copy"></i></span>
+                  </div>
+                  <input type="number" name="kittaa"
+                    class="form-control" placeholder="सेयर कित्ता" value="{{ old('kittaa') }}" id="kittaa">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">रकम</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-money-bill"></i></span>
+                  </div>
+                  <input type="number" name="amount" placeholder="रकम" class="form-control" id="amount" readonly>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> मिति</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
+                  </div>
+                  <input type="text" name="creation_date" id="nepaliDate10" class="form-control" placeholder="मिति (YYYY-MM-DD)">
+              </div>
+            </div>
+              <div class="form-group">
+                <label class="control-label">कैफियत</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-pencil-alt"></i></span>
+                  </div>
+                  <input type="text" name="remarks"
+                      class="form-control" placeholder="कैफियत">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" type="submit"><i
+                class="fa fa-fw fa-lg fa-check-circle"></i> थप्नुहोस्</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- / -->
 
 @endsection
 
 @section('custom-scripts')
     <script>
       jQuery(function($) {
+
+        $("#kittaa").on('input', function() {
+          let share_kittaa = parseInt($("#kittaa").val());
+          if(!isNaN(share_kittaa)) {
+              $("#amount").attr('value', share_kittaa*100);
+          } else {
+              $("#amount").attr('value', 0);
+          }
+        });
 
         $(".print-page").click(function() {
           printDiv();

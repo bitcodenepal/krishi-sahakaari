@@ -204,25 +204,19 @@ class ShareController extends Controller
     }
 
     public function shareBalance(Request $request, $id) {
-        $balance_old = Balance::where('share_id', $id)->latest()->first();
+        $balance_old = Balance::where('share_no', $id)->latest()->first();
         if ($balance_old) {
             try {
                 DB::beginTransaction();
                 $balance = new Balance;
-                $balance->share_id = $id;
+                $balance->user_id = Auth::user()->id;
+                $balance->share_no = $id;
                 $balance->receipt = $request->receipt;
                 $balance->description = $request->description;
-                if ($request->method == "deposit") {
-                    $balance->kittaa = $balance_old->kittaa + $request->kittaa;
-                    $balance->deposit = $request->amount;
-                    $balance->withdraw = 0;
-                    $balance->balance = $balance_old->balance+$request->amount;
-                } else {
-                    $balance->kittaa =$balance_old->kittaa - $request->kittaa;
-                    $balance->deposit = 0;
-                    $balance->withdraw = $request->amount;
-                    $balance->balance = $balance_old->balance-$request->amount;
-                }
+                $balance->kittaa = $balance_old->kittaa + $request->kittaa;
+                $balance->deposit = $request->amount;
+                $balance->balance = $balance_old->balance+$request->amount;
+                $balance->creation_date = $request->creation_date;
                 $balance->remarks = $request->remarks;
                 $balance->save();
                 DB::commit();
