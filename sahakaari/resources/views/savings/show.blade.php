@@ -27,16 +27,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($saving->savingBalances as $balance)
+                  @foreach ($saving_balances as $balance)
                     <tr>
                       <td width="75px"><span class="badge badge-pill badge-info" style="font-size: 14px;">{{ ($balance->creation_date) ? $balance->creation_date : $balance->created_date }}</span></td>
                       <td>{{ $balance->description }}</td>
                       <td>Rs. {{ ($balance->withdraw == null) ? 0 : $balance->withdraw }}</td>
                       <td>Rs. {{ ($balance->deposit == null) ? 0 : $balance->deposit }}</td>
                       <td>Rs. {{ $balance->balance }}</td>
-                      <td>{{ $balance->interest }} %</td>
-                      <td>Rs. {{ $balance->balance*$daily_interest }}</td>
-                      <td>Rs. {{ $saving_amount }}</td>
+                      <td>{{ $saving->interest }} %</td>
+                      <td>Rs. {{ ($balance->interest_amount) ? $balance->interest_amount : $interest_amount }}</td>
+                      <td>Rs. {{ $balance->saving_amount) ? $balance->saving_amount : $saving_amount }}</td>
                       <td>{{ $balance->remarks }}</td>
                     </tr>
                   @endforeach
@@ -56,6 +56,8 @@
           </div>
           <form action="{{ route('savings.balance', $saving->id) }}" method="POST">
             @csrf
+            <input type="hidden" name="interest_amount" value="{{ $interest_amount }}">
+            <input type="hidden" name="saving_amount" value="{{ $saving_amount }}">
             <div class="modal-body">
               <div class="form-group">
                 <label class="control-label">विवरण</label>

@@ -1,4 +1,4 @@
-(function () {
+jQuery(function ($) {
     "use strict";
 
     var treeviewMenu = $('.app-menu');

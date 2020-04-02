@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
+/**
+ * @package: App\Http\Controllers
+ * @author: Shashank Jha <shashankj677@gmail.com>
+ */
+
 class ShareController extends Controller
 {
     public function index(Request $request) {
@@ -34,7 +39,10 @@ class ShareController extends Controller
                 ->addColumn('image', function($row) {
                     return "<a href='".asset('sahakaari/public/img/'.$row->image)."' target='_blank'><img src='".asset('sahakaari/public/img/'.$row->image)."' class='img-thumbnail' width='75' /></a>";
                 })
-                ->rawColumns(['view', 'edit', 'delete', 'image'])
+                ->addColumn('date', function($row) {
+                    return ($row->creation_date) ? $row->creation_date : $row->created_date;
+                })
+                ->rawColumns(['view', 'edit', 'delete', 'image', 'date'])
                 ->make(true);
         }
         return view('share.index');
@@ -86,6 +94,11 @@ class ShareController extends Controller
             $share->inheritant = $request->inheritant;
             $share->image = $new_name;
             $share->creation_date = $request->creation_date;
+            $share->receipt = $request->receipt;
+            $share->description = $request->description;
+            $share->kittaa = $request->kittaa;
+            $share->balance = $request->balance;
+            $share->remarks = $request->remarks;
             $share->save();
 
             $balance = new Balance;
@@ -124,7 +137,6 @@ class ShareController extends Controller
 
     public function edit(Share $share) {
         return view('share.edit')
-            ->with('balance', Balance::userId()->shareNo($share->no)->latest()->first())
             ->with('share', $share);
     }
 
@@ -166,7 +178,12 @@ class ShareController extends Controller
                 'spouce_name' => $request->spouce_name,
                 'inheritant' => $request->inheritant,
                 'creation_date' => $request->creation_date,
-                'image' => $new_name
+                'image' => $new_name,
+                'receipt' => $request->receipt,
+                'kittaa' => $request->kittaa,
+                'balance' => $request->balance,
+                'description' => $request->description,
+                'remarks' => $request->remarks
             );
             DB::beginTransaction();
 
@@ -208,6 +225,7 @@ class ShareController extends Controller
         if ($balance_old) {
             try {
                 DB::beginTransaction();
+
                 $balance = new Balance;
                 $balance->user_id = Auth::user()->id;
                 $balance->share_no = $id;
@@ -219,6 +237,12 @@ class ShareController extends Controller
                 $balance->creation_date = $request->creation_date;
                 $balance->remarks = $request->remarks;
                 $balance->save();
+
+                $share = Share::find($id);
+                $share->kittaa = $balance_old->kittaa + $request->kittaa;
+                $share->balance = $balance_old->balance+$request->amount;
+                $share->save();
+
                 DB::commit();
 
                 Session::flash('success', "प्रक्रिया सफल भयो");

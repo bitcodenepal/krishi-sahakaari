@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Balance;
 use App\SavingBalance;
 use App\Saving;
 use App\Share;
@@ -90,6 +89,8 @@ class SavingsController extends Controller
             $saving->money = $request->money;
             $saving->interest = $request->interest;
             $saving->acc_no = $request->acc_no;
+            $saving->description = $request->description;
+            $saving->remarks = $request->remarks;
             $saving->creation_date = $request->creation_date;
             $saving->save();
 
@@ -101,7 +102,6 @@ class SavingsController extends Controller
             $balance->withdraw = $request->withdraw;
             $balance->deposit = $request->deposit;
             $balance->remarks = $request->remarks;
-            $balance->interest = $request->interest;
             $balance->creation_date = $request->creation_date;
             $balance->save();
             DB::commit();
@@ -124,13 +124,15 @@ class SavingsController extends Controller
         $now = Carbon::now();
         $diff = $created_date->diffInDays($now);
 
-        $daily_interest = ($diff *($saving_balance->interest/100))/365;
+        $daily_interest = ($diff *($saving->interest/100))/365;
 
-        $saving_amount = ($diff > 0) ? $saving_balance->balance+$saving_balance->balance*$daily_interest : $saving_balance->balance;
+        $interest_amount = $saving_balance->balance*$daily_interest;
+
+        $saving_amount = ($diff > 0) ? $saving_balance->balance+$interest_amount : $saving_balance->balance;
 
         return view('savings.show')
-            ->with('saving', $saving)
-            ->with('daily_interest', $daily_interest)
+            ->with('saving_balances', SavingBalance::where('saving_id', $saving->id)->get())
+            ->with('interest_amount', $interest_amount)
             ->with('saving_amount', $saving_amount);
     }
 
@@ -202,12 +204,7 @@ class SavingsController extends Controller
 
     public function getShareDetails(Request $request)  {
         $share = Share::userId()->No($request->accId)->get();
-        $balance = Balance::userId()->ShareNo($request->accId)->latest()->first()->balance;
-        $response = array(
-            'share' => $share,
-            'balance' => $balance
-        );
-        return response()->json($response);
+        return response()->json($share);
     }
 
     public function savingBalance(Request $request, $id) {
@@ -222,16 +219,20 @@ class SavingsController extends Controller
                 if ($request->method == "deposit") {
                     $balance->deposit = $request->amount;
                     $balance->withdraw = 0;
-                    $balance->balance = $balance_old->balance+$request->amount;
+                    $balance->balance = $request->saving_amount+$request->amount;
                 } else {
                     $balance->deposit = 0;
                     $balance->withdraw = $request->amount;
-                    $balance->balance = $balance_old->balance-$request->amount;
+                    $balance->balance = $request->saving_amount-$request->amount;
                 }
-                $balance->interest = $request->interest;
                 $balance->remarks = $request->remarks;
                 $balance->creation_date = $request->creation_date;
                 $balance->save();
+
+                $balance_old->interest_amount = $request->interest_amount;
+                $balance_old->saving_amount = $request->saving_amount;
+                $balance_old->save();
+                
                 DB::commit();
 
                 Session::flash('success', "प्रक्रिया सफल भयो");

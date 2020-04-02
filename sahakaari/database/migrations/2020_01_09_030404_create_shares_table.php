@@ -26,10 +26,15 @@ class CreateSharesTable extends Migration
             $table->string('father_name')->charset('utf8')->collation('utf8_unicode_ci');
             $table->string('gender')->charset('utf8')->collation('utf8_unicode_ci');
             $table->string('marital_status')->charset('utf8')->collation('utf8_unicode_ci');
+            $table->integer('receipt')->nullable();
+            $table->integer('kittaa');
+            $table->bigInteger('balance');
             $table->string('spouce_name')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
             $table->string('inheritant')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
             $table->string('image');
-            $table->string('creation_date')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
+            $table->text('description')->nullable()->collation('utf8_unicode_ci');
+            $table->string('remarks')->nullable()->collation('utf8_unicode_ci');
+            $table->string('creation_date')->nullable();
             $table->timestamps();
         });
     }

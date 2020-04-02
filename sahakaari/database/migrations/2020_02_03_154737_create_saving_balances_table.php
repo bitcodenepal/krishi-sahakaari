@@ -21,12 +21,13 @@ class CreateSavingBalancesTable extends Migration
             $table->unsignedBigInteger('saving_id');
             $table->foreign('saving_id')
                 ->references('id')->on('savings');
-            $table->text('description')->nullable();
+            $table->text('description')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
             $table->bigInteger('balance');
             $table->bigInteger('withdraw')->nullable();
             $table->bigInteger('deposit')->nullable();
-            $table->mediumInteger('interest');
-            $table->string('remarks')->nullable();
+            $table->bigInteger('interest_amount')->default(0);
+            $table->bigInteger('saving_amount')->default(0);
+            $table->string('remarks')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
             $table->string('creation_date')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
             $table->timestamps();
         });

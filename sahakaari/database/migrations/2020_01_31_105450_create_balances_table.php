@@ -19,14 +19,14 @@ class CreateBalancesTable extends Migration
             $table->foreign('user_id')
                 ->references('id')->on('users');
             $table->integer('share_no')->foreign('share_no')->references('no')->on('shares');
-            $table->integer('receipt');
-            $table->text('description')->nullable();
+            $table->integer('receipt')->nullable();
+            $table->text('description')->nullable()->collation('utf8_unicode_ci');
             $table->integer('kittaa');
             $table->bigInteger('balance');
             $table->bigInteger('withdraw')->nullable();
             $table->bigInteger('deposit')->nullable();
-            $table->string('remarks')->nullable();
-            $table->string('creation_date')->charset('utf8')->collation('utf8_unicode_ci');
+            $table->string('remarks')->nullable()->collation('utf8_unicode_ci');
+            $table->string('creation_date')->nullable();
             $table->timestamps();
         });
     }

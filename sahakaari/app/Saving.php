@@ -7,9 +7,14 @@ use App\Share;
 use App\SavingBalance;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @package: App
+ * @author: Shashank Jha <shashankj677@gmail.com>
+ */
+
 class Saving extends Model
 {
-    protected $fillable = ['user_id', 'acc_type', 'share_id', 'money', 'interest', 'acc_no', 'creation_date'];
+    protected $fillable = ['user_id', 'acc_type', 'share_id', 'money', 'interest_amount', 'acc_no', 'creation_date', 'description', 'remarks', 'saving_amount'];
 
     public function share() {
         return $this->belongsTo(Share::class, 'share_no');

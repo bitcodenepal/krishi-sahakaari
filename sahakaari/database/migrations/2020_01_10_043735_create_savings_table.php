@@ -23,6 +23,8 @@ class CreateSavingsTable extends Migration
             $table->unsignedBigInteger('money');
             $table->mediumInteger('interest');
             $table->unsignedBigInteger('acc_no')->nullable();
+            $table->text('description')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
+            $table->string('remarks')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
             $table->string('creation_date')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
             $table->timestamps();
         });

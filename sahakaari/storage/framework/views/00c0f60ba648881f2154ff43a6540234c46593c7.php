@@ -1,19 +1,18 @@
-@extends('layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <div class="app-title">
-        <h1><a href="{{ route('share.index') }}"><i class="fa fa-arrow-circle-left fa-fw"></i></a>
-            &nbsp;&nbsp;&nbsp; {{ $share->name}}को विवरण सम्पादन गर्नुहोस्
+        <h1><a href="<?php echo e(route('share.index')); ?>"><i class="fa fa-arrow-circle-left fa-fw"></i></a>
+            &nbsp;&nbsp;&nbsp; <?php echo e($share->name); ?>को विवरण सम्पादन गर्नुहोस्
         </h1>
     </div>
 
     <div class="row">
         <div class="col-12">
             <div class="tile">
-                <form class="form-horizontal" method="POST" action="{{ route('share.update', $share->id) }}" enctype="multipart/form-data">
-                    {{ method_field('PUT') }}
-                    @csrf
+                <form class="form-horizontal" method="POST" action="<?php echo e(route('share.update', $share->id)); ?>" enctype="multipart/form-data">
+                    <?php echo e(method_field('PUT')); ?>
+
+                    <?php echo csrf_field(); ?>
                     <div class="tile-body">
                         <div class="form-group row">
                             <label class="control-label col-md-4 mt-2 text-right"> सदस्यता नम्बर</label>
@@ -23,10 +22,10 @@
                                         <span class="input-group-text"><i class="fa fa-id-card-alt"></i></span>
                                     </div>
                                     <input type="number" name="no"
-                                        class="form-control {{ ($errors->has('no')) ? 'is-invalid' : '' }}" value="{{ $share->no }}">
-                                    @if($errors->has('no'))
-                                        <div class="invalid-feedback">{{ $errors->first('no') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('no')) ? 'is-invalid' : ''); ?>" value="<?php echo e($share->no); ?>">
+                                    <?php if($errors->has('no')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('no')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -38,10 +37,10 @@
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
                                     </div>
                                     <input type="text" name="name"
-                                        class="form-control {{ ($errors->has('name')) ? 'is-invalid' : '' }}" value="{{ $share->name }}">
-                                    @if($errors->has('name'))
-                                        <div class="invalid-feedback">{{ $errors->first('name') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('name')) ? 'is-invalid' : ''); ?>" value="<?php echo e($share->name); ?>">
+                                    <?php if($errors->has('name')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('name')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -53,10 +52,10 @@
                                         <span class="input-group-text"><i class="fa fa-map-marked-alt"></i></span>
                                     </div>
                                     <input type="text" name="address"
-                                        class="form-control {{ ($errors->has('address')) ? 'is-invalid' : '' }}" value="{{ $share->address }}">
-                                    @if($errors->has('address'))
-                                        <div class="invalid-feedback">{{ $errors->first('address') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('address')) ? 'is-invalid' : ''); ?>" value="<?php echo e($share->address); ?>">
+                                    <?php if($errors->has('address')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('address')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -68,10 +67,10 @@
                                         <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                     </div>
                                     <input type="text" name="contact_no"
-                                        class="form-control {{ ($errors->has('contact_no')) ? 'is-invalid' : '' }}" placeholder="नयाँ सेयर होल्डरको सम्पर्क नम्बर" value="{{ $share->contact_no }}">
-                                    @if($errors->has('contact_no'))
-                                        <div class="invalid-feedback">{{ $errors->first('contact_no') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('contact_no')) ? 'is-invalid' : ''); ?>" placeholder="नयाँ सेयर होल्डरको सम्पर्क नम्बर" value="<?php echo e($share->contact_no); ?>">
+                                    <?php if($errors->has('contact_no')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('contact_no')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -83,10 +82,10 @@
                                         <span class="input-group-text"><i class="fa fa-blind"></i></span>
                                     </div>
                                     <input type="text" name="grandfather_name"
-                                        class="form-control {{ ($errors->has('grandfather_name')) ? 'is-invalid' : '' }}" value="{{ $share->grandfather_name }}">
-                                    @if($errors->has('grandfather_name'))
-                                        <div class="invalid-feedback">{{ $errors->first('grandfather_name') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('grandfather_name')) ? 'is-invalid' : ''); ?>" value="<?php echo e($share->grandfather_name); ?>">
+                                    <?php if($errors->has('grandfather_name')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('grandfather_name')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -98,10 +97,10 @@
                                         <span class="input-group-text"><i class="fa fa-user-tie"></i></span>
                                     </div>
                                     <input type="text" name="father_name"
-                                        class="form-control {{ ($errors->has('father_name')) ? 'is-invalid' : '' }}"  value="{{ $share->father_name }}">
-                                    @if($errors->has('father_name'))
-                                        <div class="invalid-feedback">{{ $errors->first('father_name') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('father_name')) ? 'is-invalid' : ''); ?>"  value="<?php echo e($share->father_name); ?>">
+                                    <?php if($errors->has('father_name')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('father_name')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -110,27 +109,27 @@
                             <div class="col-md-8">
                               <div class="form-check">
                                 <label class="form-check-label">
-                                  <input class="form-check-input {{ ($errors->has('gender')) ? 'is-invalid' : '' }}" type="radio" name="gender" value = "पुरुस" {{ ($share->gender == "पुरुस" ? "checked" : "") }}>पुरुस
+                                  <input class="form-check-input <?php echo e(($errors->has('gender')) ? 'is-invalid' : ''); ?>" type="radio" name="gender" value = "पुरुस" <?php echo e(($share->gender == "पुरुस" ? "checked" : "")); ?>>पुरुस
                                 </label>
-                                @if($errors->has('gender'))
-                                    <div class="invalid-feedback">{{ $errors->first('gender') }}</div>
-                                @endif
+                                <?php if($errors->has('gender')): ?>
+                                    <div class="invalid-feedback"><?php echo e($errors->first('gender')); ?></div>
+                                <?php endif; ?>
                               </div>
                               <div class="form-check">
                                 <label class="form-check-label">
-                                    <input class="form-check-input {{ ($errors->has('gender')) ? 'is-invalid' : '' }}" type="radio" name="gender" value = "महिला" {{ ($share->gender == "महिला" ? "checked" : "") }}>महिला
+                                    <input class="form-check-input <?php echo e(($errors->has('gender')) ? 'is-invalid' : ''); ?>" type="radio" name="gender" value = "महिला" <?php echo e(($share->gender == "महिला" ? "checked" : "")); ?>>महिला
                                 </label>
-                                @if($errors->has('gender'))
-                                    <div class="invalid-feedback">{{ $errors->first('gender') }}</div>
-                                @endif
+                                <?php if($errors->has('gender')): ?>
+                                    <div class="invalid-feedback"><?php echo e($errors->first('gender')); ?></div>
+                                <?php endif; ?>
                               </div>
                               <div class="form-check">
                                 <label class="form-check-label">
-                                    <input class="form-check-input {{ ($errors->has('gender')) ? 'is-invalid' : '' }}" type="radio" name="gender" value = "अन्य" {{ ($share->gender == "अन्य" ? "checked" : "") }}>अन्य
+                                    <input class="form-check-input <?php echo e(($errors->has('gender')) ? 'is-invalid' : ''); ?>" type="radio" name="gender" value = "अन्य" <?php echo e(($share->gender == "अन्य" ? "checked" : "")); ?>>अन्य
                                 </label>
-                                @if($errors->has('gender'))
-                                    <div class="invalid-feedback">{{ $errors->first('gender') }}</div>
-                                @endif
+                                <?php if($errors->has('gender')): ?>
+                                    <div class="invalid-feedback"><?php echo e($errors->first('gender')); ?></div>
+                                <?php endif; ?>
                               </div>
                             </div>
                         </div>
@@ -139,27 +138,27 @@
                             <div class="col-md-8">
                               <div class="form-check">
                                 <label class="form-check-label">
-                                  <input class="form-check-input {{ ($errors->has('marital_status')) ? 'is-invalid' : '' }} marital-status" type="radio" name="marital_status" id="married" value = "विवाहित" {{ ($share->marital_status == "विवाहित" ? "checked" : "") }}>विवाहित
+                                  <input class="form-check-input <?php echo e(($errors->has('marital_status')) ? 'is-invalid' : ''); ?> marital-status" type="radio" name="marital_status" id="married" value = "विवाहित" <?php echo e(($share->marital_status == "विवाहित" ? "checked" : "")); ?>>विवाहित
                                 </label>
-                                @if($errors->has('marital_status'))
-                                    <div class="invalid-feedback">{{ $errors->first('marital_status') }}</div>
-                                @endif
+                                <?php if($errors->has('marital_status')): ?>
+                                    <div class="invalid-feedback"><?php echo e($errors->first('marital_status')); ?></div>
+                                <?php endif; ?>
                               </div>
                               <div class="form-check">
                                 <label class="form-check-label">
-                                    <input class="form-check-input {{ ($errors->has('marital_status')) ? 'is-invalid' : '' }} marital-status" type="radio" name="marital_status" id="unmarried" value = "अविवाहित" {{ ($share->marital_status == "अविवाहित" ? "checked" : "") }}>अविवाहित
+                                    <input class="form-check-input <?php echo e(($errors->has('marital_status')) ? 'is-invalid' : ''); ?> marital-status" type="radio" name="marital_status" id="unmarried" value = "अविवाहित" <?php echo e(($share->marital_status == "अविवाहित" ? "checked" : "")); ?>>अविवाहित
                                 </label>
-                                @if($errors->has('marital_status'))
-                                    <div class="invalid-feedback">{{ $errors->first('marital_status') }}</div>
-                                @endif
+                                <?php if($errors->has('marital_status')): ?>
+                                    <div class="invalid-feedback"><?php echo e($errors->first('marital_status')); ?></div>
+                                <?php endif; ?>
                               </div>
                               <div class="form-check">
                                 <label class="form-check-label">
-                                    <input class="form-check-input {{ ($errors->has('marital_status')) ? 'is-invalid' : '' }} marital-status" type="radio" name="marital_status" id="other" value = "अन्य" {{ ($share->marital_status == "अन्य" ? "checked" : "") }}>अन्य
+                                    <input class="form-check-input <?php echo e(($errors->has('marital_status')) ? 'is-invalid' : ''); ?> marital-status" type="radio" name="marital_status" id="other" value = "अन्य" <?php echo e(($share->marital_status == "अन्य" ? "checked" : "")); ?>>अन्य
                                 </label>
-                                @if($errors->has('marital_status'))
-                                    <div class="invalid-feedback">{{ $errors->first('marital_status') }}</div>
-                                @endif
+                                <?php if($errors->has('marital_status')): ?>
+                                    <div class="invalid-feedback"><?php echo e($errors->first('marital_status')); ?></div>
+                                <?php endif; ?>
                               </div>
                             </div>
                         </div>
@@ -171,10 +170,10 @@
                                         <span class="input-group-text"><i class="fa fa-restroom"></i></span>
                                     </div>
                                     <input type="text" name="spouce_name"
-                                        class="form-control {{ ($errors->has('spouce_name')) ? 'is-invalid' : '' }}" value="{{ $share->spouce_name }}">
-                                    @if($errors->has('spouce_name'))
-                                        <div class="invalid-feedback">{{ $errors->first('spouce_name') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('spouce_name')) ? 'is-invalid' : ''); ?>" value="<?php echo e($share->spouce_name); ?>">
+                                    <?php if($errors->has('spouce_name')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('spouce_name')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -186,10 +185,10 @@
                                         <span class="input-group-text"><i class="fa fa-child"></i></span>
                                     </div>
                                     <input type="text" name="inheritant"
-                                        class="form-control {{ ($errors->has('inheritant')) ? 'is-invalid' : '' }}" value="{{ $share->inheritant }}">
-                                    @if($errors->has('inheritant'))
-                                        <div class="invalid-feedback">{{ $errors->first('inheritant') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('inheritant')) ? 'is-invalid' : ''); ?>" value="<?php echo e($share->inheritant); ?>">
+                                    <?php if($errors->has('inheritant')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('inheritant')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -201,10 +200,10 @@
                                         <span class="input-group-text"><i class="fa fa-receipt"></i></span>
                                     </div>
                                     <input type="number" name="receipt"
-                                        class="form-control {{ ($errors->has('receipt')) ? 'is-invalid' : '' }}" placeholder="रसीद नम्बर" value="{{ $share->receipt }}">
-                                    @if($errors->has('receipt'))
-                                        <div class="invalid-feedback">{{ $errors->first('receipt') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('receipt')) ? 'is-invalid' : ''); ?>" placeholder="रसीद नम्बर" value="<?php echo e($share->receipt); ?>">
+                                    <?php if($errors->has('receipt')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('receipt')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -216,10 +215,10 @@
                                         <span class="input-group-text"><i class="fa fa-copy"></i></span>
                                     </div>
                                     <input type="number" name="kittaa"
-                                        class="form-control {{ ($errors->has('kittaa')) ? 'is-invalid' : '' }}" placeholder="सेयर कित्ता" value="{{ $share->kittaa }}" id="kittaa">
-                                    @if($errors->has('kittaa'))
-                                        <div class="invalid-feedback">{{ $errors->first('kittaa') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('kittaa')) ? 'is-invalid' : ''); ?>" placeholder="सेयर कित्ता" value="<?php echo e($share->kittaa); ?>" id="kittaa">
+                                    <?php if($errors->has('kittaa')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('kittaa')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -230,10 +229,10 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-money-bill"></i></span>
                                     </div>
-                                    <input type="number" class="form-control" name="balance" value="{{ $share->balance }}" placeholder="ब्यालेन्स" id="balance" readonly>
-                                    @if($errors->has('balance'))
-                                        <div class="invalid-feedback">{{ $errors->first('balance') }}</div>
-                                    @endif
+                                    <input type="number" class="form-control" name="balance" value="<?php echo e($share->balance); ?>" placeholder="ब्यालेन्स" id="balance" readonly>
+                                    <?php if($errors->has('balance')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('balance')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -245,10 +244,10 @@
                                         <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
                                     </div>
                                     <input type="text" name="creation_date" id="nepaliDate10"
-                                        class="form-control {{ ($errors->has('creation_date')) ? 'is-invalid' : '' }}" placeholder="खाता सिर्जना को मिति (YYYY-MM-DD)" value="{{ ($share->creation_date) ? $share->creation_date : $share->created_date }}">
-                                    @if($errors->has('creation_date'))
-                                        <div class="invalid-feedback">{{ $errors->first('creation_date') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('creation_date')) ? 'is-invalid' : ''); ?>" placeholder="खाता सिर्जना को मिति (YYYY-MM-DD)" value="<?php echo e(($share->creation_date) ? $share->creation_date : $share->created_date); ?>">
+                                    <?php if($errors->has('creation_date')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('creation_date')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -260,10 +259,10 @@
                                         <span class="input-group-text"><i class="fa fa-sticky-note"></i></span>
                                     </div>
                                     <input type="text" name="description"
-                                        class="form-control {{ ($errors->has('description')) ? 'is-invalid' : '' }}" placeholder="विवरण" value="{{ $share->description }}">
-                                    @if($errors->has('description'))
-                                        <div class="invalid-feedback">{{ $errors->first('description') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('description')) ? 'is-invalid' : ''); ?>" placeholder="विवरण" value="<?php echo e($share->description); ?>">
+                                    <?php if($errors->has('description')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('description')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -275,14 +274,14 @@
                                         <span class="input-group-text"><i class="fa fa-pencil-alt"></i></span>
                                     </div>
                                     <input type="text" name="remarks"
-                                        class="form-control {{ ($errors->has('remarks')) ? 'is-invalid' : '' }}" placeholder="कैफियत" value="{{ $share->remarks }}">
-                                    @if($errors->has('remarks'))
-                                        <div class="invalid-feedback">{{ $errors->first('remarks') }}</div>
-                                    @endif
+                                        class="form-control <?php echo e(($errors->has('remarks')) ? 'is-invalid' : ''); ?>" placeholder="कैफियत" value="<?php echo e($share->remarks); ?>">
+                                    <?php if($errors->has('remarks')): ?>
+                                        <div class="invalid-feedback"><?php echo e($errors->first('remarks')); ?></div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="old_image" value="{{ $share->image }}">
+                        <input type="hidden" name="old_image" value="<?php echo e($share->image); ?>">
                         <div class="form-group row">
                             <label for="exampleInputFile" class="control-label col-md-4 mt-2 text-right">फोटो र हस्ताक्षर भएको इमेज अपलोड गर्नुहोस्</label>
                             <div class="col-md-8">
@@ -305,9 +304,9 @@
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('custom-scripts')
+<?php $__env->startSection('custom-scripts'); ?>
     
     <script>
     
@@ -343,4 +342,5 @@
     
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sahakaari\sahakaari\resources\views/share/edit.blade.php ENDPATH**/ ?>
