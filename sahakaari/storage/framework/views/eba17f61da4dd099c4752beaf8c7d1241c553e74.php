@@ -40,7 +40,6 @@
                         <th>वैवाहिक स्थिति</th>
                         <th>दम्पतिको नाम</th>
                         <th>हकवालाको नाम</th>
-                        <th>रसिद नम्बर</th>
                         <th>सेयर कित्ता</th>
                         <th>ब्यालेन्स</th>
                         <th>विवरण</th>
@@ -90,7 +89,6 @@
                     {data: 'marital_status', name: 'marital_status'},
                     {data: 'spouce_name', name: 'spouce_name'},
                     {data: 'inheritant', name: 'inheritant'},
-                    {data: 'receipt', name: 'receipt'},
                     {data: 'kittaa', name: 'kittaa'},
                     {data: 'balance', name: 'balance'},
                     {data: 'description', name: 'description'},
@@ -113,7 +111,7 @@
                         extend: 'excel',
                         title: 'बचत खाता सूची',
                         exportOptions: {
-                            columns: [4, 5, 6, 7, 8, 9, 10, 11, 12],
+                            columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
                         },
                         text: '<i class="fa fa-fw fa-file-excel"></i> Excel'
                     },

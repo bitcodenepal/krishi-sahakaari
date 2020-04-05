@@ -25,16 +25,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <?php $__currentLoopData = $saving->savingBalances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $balance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <?php $__currentLoopData = $saving_balances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $balance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
                       <td width="75px"><span class="badge badge-pill badge-info" style="font-size: 14px;"><?php echo e(($balance->creation_date) ? $balance->creation_date : $balance->created_date); ?></span></td>
                       <td><?php echo e($balance->description); ?></td>
                       <td>Rs. <?php echo e(($balance->withdraw == null) ? 0 : $balance->withdraw); ?></td>
                       <td>Rs. <?php echo e(($balance->deposit == null) ? 0 : $balance->deposit); ?></td>
                       <td>Rs. <?php echo e($balance->balance); ?></td>
-                      <td><?php echo e($balance->interest); ?> %</td>
-                      <td>Rs. <?php echo e($balance->balance*$daily_interest); ?></td>
-                      <td>Rs. <?php echo e($saving_amount); ?></td>
+                      <td><?php echo e($saving->interest); ?> %</td>
+                      <td>Rs. <?php echo e(($balance->interest_amount != 0) ? $balance->interest_amount : $interest_amount); ?></td>
+                      <td>Rs. <?php echo e(($balance->saving_amount != 0) ? $balance->saving_amount : $saving_amount); ?></td>
                       <td><?php echo e($balance->remarks); ?></td>
                     </tr>
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -54,6 +54,8 @@
           </div>
           <form action="<?php echo e(route('savings.balance', $saving->id)); ?>" method="POST">
             <?php echo csrf_field(); ?>
+            <input type="hidden" name="interest_amount" value="<?php echo e($interest_amount); ?>">
+            <input type="hidden" name="saving_amount" value="<?php echo e($saving_amount); ?>">
             <div class="modal-body">
               <div class="form-group">
                 <label class="control-label">विवरण</label>
@@ -61,6 +63,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-sticky-note"></i></span>
                   </div>
+                  <a rel="nofollow" href="http://naya.com.np"; title="Nepali Social Network" class="naya_convert">naya.com.np</a>
                   <input type="text" name="description"
                       class="form-control" placeholder="विवरण">
                 </div>
@@ -83,29 +86,21 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label">कुल ब्याजदर</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-percent"></i></span>
-                  </div>
-                  <input type="number" name="interest" class="form-control" placeholder="कुल ब्याजदर">
-              </div>
-            </div>
-            <div class="form-group">
                 <label class="control-label"> मिति</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
                   </div>
                   <input type="text" name="creation_date" id="nepaliDate10" class="form-control" placeholder="मिति (YYYY-MM-DD)">
+                </div>
               </div>
-            </div>
               <div class="form-group">
                 <label class="control-label">कैफियत</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-pencil-alt"></i></span>
                   </div>
+                  <a rel="nofollow" href="http://naya.com.np"; title="Nepali Social Network" class="naya_convert">naya.com.np</a>
                   <input type="text" name="remarks"
                       class="form-control" placeholder="कैफियत">
                 </div>

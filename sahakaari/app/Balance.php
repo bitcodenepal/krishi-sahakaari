@@ -13,7 +13,7 @@ class Balance extends Model
     protected $fillable = ['user_id', 'share_no', 'receipt', 'description', 'kittaa', 'balance', 'withdraw', 'deposit', 'remarks', 'creation_date'];
 
     public function share() {
-        return $this->belongsTo(Share::class, 'no');
+        return $this->belongsTo(Share::class, 'share_no');
     }
 
     public function getCreatedDateAttribute() {

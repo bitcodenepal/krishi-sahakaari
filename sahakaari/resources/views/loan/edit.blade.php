@@ -162,7 +162,7 @@
 
     <script>
     
-        $(function() {
+        jQuery(function($) {
             
             $(".select2").select2();
 

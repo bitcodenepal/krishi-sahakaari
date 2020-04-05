@@ -1,9 +1,7 @@
 @extends('layouts.master')
 
 @section('page-styles')
-
     <link rel="stylesheet" href="{{ asset('css/buttons.dataTables.min.css') }}">
-
 @stop
 
 @section('custom-styles')
@@ -41,6 +39,9 @@
                         <th>कुल रकम</th>
                         <th>ब्याजदर</th>
                         <th>खाता नम्बर</th>
+                        <th>विवरण</th>
+                        <th>कैफियत</th>
+                        <th>मिति</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -83,6 +84,9 @@
                     {data: 'money', name: 'money'},
                     {data: 'interest', name: 'interest'},
                     {data: 'acc_no', name: 'acc_no'},
+                    {data: 'description', name: 'description'},
+                    {data: 'remarks', name: 'remarks'},
+                    {data: 'date', name: 'date'},
                 ],
             });
 
@@ -92,7 +96,7 @@
                         extend: "print",
                         title: "बचत खाता सूची",
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                            columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
                         },
                         text: '<i class="fa fa-fw fa-print"></i> Print'
                     },
@@ -100,7 +104,7 @@
                         extend: 'excel',
                         title: 'बचत खाता सूची',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                            columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
                         },
                         text: '<i class="fa fa-fw fa-file-excel"></i> Excel'
                     },

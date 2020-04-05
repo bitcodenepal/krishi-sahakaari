@@ -133,14 +133,14 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-4 mt-2 text-right"> ऋणीको मिति</label>
+                            <label class="control-label col-md-4 mt-2 text-right"> ऋणको मिति</label>
                             <div class="col-md-8">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
                                     </div>
                                     <input type="text" name="creation_date" id="nepaliDate10"
-                                        class="form-control {{ ($errors->has('creation_date')) ? 'is-invalid' : '' }}" placeholder="ऋणीको मिति (YYYY-MM-DD)" value="{{ old('creation_date') }}">
+                                        class="form-control {{ ($errors->has('creation_date')) ? 'is-invalid' : '' }}" placeholder="ऋणको मिति (YYYY-MM-DD)" value="{{ old('creation_date') }}">
                                     @if($errors->has('creation_date'))
                                         <div class="invalid-feedback">{{ $errors->first('creation_date') }}</div>
                                     @endif
@@ -157,6 +157,19 @@
                                     <input type="number" name="loan_percent" id="loan-percent"
                                            class="form-control {{ ($errors->has('loan_percent')) ? 'is-invalid' : '' }}"
                                            placeholder="ब्याजदर लेख्नुहोस्" value="{{ old('loan_percent') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-4 mt-2 text-right">कैफियत</label>
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-pencil-alt"></i></span>
+                                    </div>
+                                    <a rel="nofollow" href="http://naya.com.np"; title="Nepali Social Network" class="naya_convert">naya.com.np</a>
+                                    <input type="text" name="remarks"
+                                        class="form-control" placeholder="कैफियत">
                                 </div>
                             </div>
                         </div>
@@ -204,10 +217,10 @@
             $("#share-id").change(function() {
                 let accId = $("#share-id").val();
                 $.get("{{ route('get-share-details') }}", {accId}, function(response) {
-                    $("#name").attr('value', response.share[0].name);
-                    $("#address").attr('value', response.share[0].address);
-                    $("#contact-no").attr('value', response.share[0].contact_no);
-                    $("#balance").attr('value', response.balance)
+                    $("#name").attr('value', response[0].name);
+                    $("#address").attr('value', response[0].address);
+                    $("#contact-no").attr('value', response[0].contact_no);
+                    $("#balance").attr('value', response[0].balance)
                 });
             });      
 

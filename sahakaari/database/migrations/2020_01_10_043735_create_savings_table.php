@@ -16,11 +16,10 @@ class CreateSavingsTable extends Migration
         Schema::create('savings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
-                ->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('share_no')->foreign('share_no')->references('no')->on('shares');
             $table->string("acc_type")->charset('utf8')->collation('utf8_unicode_ci');
-            $table->unsignedBigInteger('money');
+            $table->decimal('money', 12,5);
             $table->mediumInteger('interest');
             $table->unsignedBigInteger('acc_no')->nullable();
             $table->text('description')->charset('utf8')->collation('utf8_unicode_ci')->nullable();

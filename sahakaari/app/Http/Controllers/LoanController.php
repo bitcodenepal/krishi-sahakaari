@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Loan;
 use App\LoanBalance;
-use App\Saving;
-use App\SavingBalance;
 use App\Share;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,7 +26,7 @@ class LoanController extends Controller
             $loans = Loan::userId()->latest()->get();
             return Datatables::of($loans)
                 ->addColumn('view', function ($row) {
-                    $btn = '<button type="button" class="btn btn-sm btn-success view-loan" data-id="' . $row->id . '" title="View Details" data-toggle="modal" data-target="#loan-details"><i class="fa fa-eye"></i> View</button>';
+                    $btn = '<a href="'.route("loan.show", $row->id) . '" class="btn btn-sm btn-success" title="View Details"><i class="fa fa-eye"></i> View</a>';
                     return $btn;
                 })
                 ->addColumn('edit', function ($row) {
@@ -51,7 +49,16 @@ class LoanController extends Controller
                 ->addColumn('address', function ($row) {
                     return $row->share->address;
                 })
-                ->rawColumns(['view', 'edit', 'delete', 'no', 'name', 'contact_no', 'address'])
+                ->addColumn('amount', function ($row) {
+                    return "Rs ".$row->amount;
+                })
+                ->addColumn('interest', function ($row) {
+                    return $row->interest. " %";
+                })
+                ->addColumn('date', function($row) {
+                    return ($row->creation_date) ? $row->creation_date : $row->created_date;
+                })
+                ->rawColumns(['view', 'edit', 'delete', 'no', 'name', 'contact_no', 'address', 'amount', 'interest', 'date'])
                 ->make(true);
         }
         return view('loan.index');
@@ -85,6 +92,7 @@ class LoanController extends Controller
             $loan->loan_type = $request->acc_type;
             $loan->amount = $request->loan_amount;
             $loan->interest = $request->loan_percent;
+            $loan->remarks = $request->remarks;
             $loan->creation_date = $request->creation_date;
             $loan->save();
 
@@ -110,16 +118,30 @@ class LoanController extends Controller
     }
 
     public function show(Loan $loan) {
-        $created_date = Carbon::parse($loan->created_at, 'UTC');
+
+        $loanBalance = LoanBalance::where('loan_id', $loan->id)->latest()->first();
+        $date = ($loan->creation_date) ? $loan->creation_at : $loan->created_at;
+        $created_date = Carbon::parse($date, 'UTC');
         $now = Carbon::now();
         $diff = $created_date->diffInDays($now);
 
-        $daily_interest = ($diff *($loan->interest/100))/365;
+        $loan_date = ($loanBalance->creation_date) ? $loanBalance->creation_at : $loanBalance->created_at;
+        $new_loan_date = Carbon::parse($loan_date, 'UTC');
+        $loan_duration = $new_loan_date->diffInDays($now);
 
-        $loan_amount = ($diff > 0) ? $loan->amount+$loan->amount*$daily_interest : $loan->amount;
+        $interest = ($loanBalance->extra_interest) ? $loanBalance->interest+$loanBalance->extra_interest : $loanBalance->interest;
+
+        $daily_interest = ($diff *($interest/100))/365;
+
+        $interest_amount = $loanBalance->amount*$daily_interest;
+
+        $loan_amount = ($diff > 0) ? $loanBalance->amount+$interest_amount : $loanBalance->amount;
 
         return view('loan.show')
             ->with('loan', $loan)
+            ->with('loan_duration', $loan_duration)
+            ->with('loan_balances', LoanBalance::where('loan_id', $loan->id)->get())
+            ->with('interest_amount', $interest_amount)
             ->with('loan_amount', $loan_amount);
     }
 
@@ -181,5 +203,36 @@ class LoanController extends Controller
         } else {
             return response("डाटा फेला पार्न सकेन");
         }
+    }
+
+    public function loanBalance(Request $request, $id) {
+        $balance_old = LoanBalance::where('loan_id', $id)->latest()->first();
+        try {
+            DB::beginTransaction();
+            $balance = new LoanBalance;
+            $balance->user_id = Auth::user()->id;
+            $balance->loan_id = $id;
+            $balance->payment = $request->amount;
+            $balance->amount = $request->saving_amount-$request->amount;
+            $balance->interest = $request->interest;
+            $balance->extra_interest = $request->extra_interest;
+            $balance->creation_date = $request->creation_date;
+            $balance->remarks = $request->remarks;
+            $balance->save();
+
+            $balance_old->interest_amount = $request->interest_amount;
+            $balance_old->loan_amount = $request->saving_amount;
+            $balance_old->loan_duration = $request->loan_duration;
+            $balance_old->save();
+
+            DB::commit();
+
+            Session::flash('success', "प्रक्रिया सफल भयो");
+            return redirect()->route('loan.show', $id);
+        } catch(\Exception $error) {
+            DB::rollBack();
+            Session::flash('error', $error->getMessage());
+            return redirect()->back();
+        } 
     }
 }

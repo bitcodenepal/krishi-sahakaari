@@ -21,12 +21,15 @@ class CreateLoanBalancesTable extends Migration
             $table->unsignedBigInteger('loan_id');
             $table->foreign('loan_id')
                 ->references('id')->on('loans');
-            $table->bigInteger('amount');
-            $table->bigInteger('payment')->nullable();
+            $table->decimal('amount', 12, 5);
+            $table->bigInteger('payment')->default(0);
             $table->mediumInteger('interest');
             $table->mediumInteger('extra_interest')->nullable();
-            $table->string('remarks')->nullable();
-            $table->string('creation_date')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
+            $table->decimal('interest_amount', 12, 5)->default(0);
+            $table->decimal('loan_amount', 12, 5)->default(0);
+            $table->integer('loan_duration')->default(0);
+            $table->string('remarks')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
+            $table->string('creation_date')->nullable();
             $table->timestamps();
         });
     }

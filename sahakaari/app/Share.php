@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Balance;
 use App\Saving;
+use App\Loan;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -24,9 +25,14 @@ class Share extends Model
         return $this->hasMany(Saving::class, 'share_no');
     }
 
+    public function loans() {
+        return $this->hasMany(Loan::class, 'share_no');
+    }
+
     public function delete() {
         $this->balances()->delete();
         $this->savings()->delete();
+        $this->loans()->delete();
         return parent::delete();
     }
 

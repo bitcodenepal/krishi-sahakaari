@@ -38,19 +38,14 @@
                         <th>ऋणको प्रकार</th>
                         <th>कुल रकम</th>
                         <th>ब्याजदर</th>
+                        <th>कैफियत</th>
+                        <th>मिति</th>
                     </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-
-    <div class="modal" id="loan-details">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content" style="border-radius: 0px;">
-          </div>
         </div>
     </div>
 
@@ -86,6 +81,8 @@
                     {data: 'loan_type', name: 'loan_type'},
                     {data: 'amount', name: 'amount'},
                     {data: 'interest', name: 'interest'},
+                    {data: 'remarks', name: 'remarks'},
+                    {data: 'date', name: 'date'},
                 ],
             });
 
@@ -109,17 +106,6 @@
                     },
                 ]
             }).container().appendTo($('#dt-buttons'));
-
-            $(".data-table").on('click', '.view-loan', function(e) {
-                e.preventDefault();
-                let id = this.dataset.id;
-                let url = "<?php echo route('loan.show', ':id'); ?>";
-                url = url.replace(":id", id);
-                $.get(url, function(response) {
-                    $(".modal-content").html(response);
-                    $("#loan-details").modal('show');
-                });
-            });
 
             $(".data-table").on('click', '.delete-loan', function (e) {
                 e.preventDefault();

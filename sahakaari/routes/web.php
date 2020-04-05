@@ -17,6 +17,7 @@ Route::middleware(['auth'])->group(function (){
     // extra share routes
     Route::post('/share-balance/{id}', 'ShareController@shareBalance')->name('share.balance');
     Route::post('/savings-balance/{id}', 'SavingsController@savingBalance')->name('savings.balance');
+    Route::post('/loan-balance/{id}', 'LoanController@loanBalance')->name('loan.balance');
     Route::get('/get-share-details', 'SavingsController@getShareDetails')->name('get-share-details');
     Route::post('/update-buy-n-sell', 'FoodController@updateBuyAndSell')->name('update-buy-n-sell');
     Route::get('/buy-n-sell', 'FoodController@buyAndSell')->name('buy-n-sell');

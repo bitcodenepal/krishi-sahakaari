@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Share;
 use App\Balance;
+use App\Loan;
 use App\Saving;
 use App\SavingBalance;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
 /**
+ * Class ShareController
  * @package: App\Http\Controllers
  * @author: Shashank Jha <shashankj677@gmail.com>
  */
@@ -76,7 +77,7 @@ class ShareController extends Controller
         try {
 
             $image = $request->image;
-            $new_name = Auth::user()->email.rand().".".$image->getClientOriginalExtension();
+            $new_name = $request->name."_".$request->contact_no.".".$image->getClientOriginalExtension();
             $image->move(public_path('img'), $new_name);
 
             DB::beginTransaction();
@@ -127,12 +128,9 @@ class ShareController extends Controller
 
     public function show(Share $share)
     {
-        $savings = Saving::userId()->where('share_no', $share->no)->get();
-        $balances = Balance::where('share_no', $share->no)->get();
         return view('share.show')
-            ->with('savings', $savings)
-            ->with('share', $share)
-            ->with('balances', $balances);
+            ->with('balances', Balance::all())
+            ->with('share', $share);
     }
 
     public function edit(Share $share) {

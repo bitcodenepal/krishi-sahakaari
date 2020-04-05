@@ -55,7 +55,10 @@ class SavingsController extends Controller
                 ->addColumn('interest', function($row){
                     return $row->interest." %";
                 })
-                ->rawColumns(['view', 'edit', 'delete', 'no', 'name', 'contact_no', 'address', 'money', 'interest'])
+                ->addColumn('date', function($row) {
+                    return ($row->creation_date) ? $row->creation_date : $row->created_date;
+                })
+                ->rawColumns(['view', 'edit', 'delete', 'no', 'name', 'contact_no', 'address', 'money', 'interest', 'date'])
                 ->make(true);
         }
         return view('savings.index');
@@ -76,7 +79,6 @@ class SavingsController extends Controller
         $custom_messages = [
             'required' => "कृपया यो फिल्ड खाली नराख्नुहोस्",
             'numeric' => "कृपया यस फिल्डमा केवल नम्बरहरू राख्नुहोस्",
-            'share_id' => "यस आईडीको बचत खाता पहिले नै अवस्थित छ"
         ];
         $this->validate($request, $rules, $custom_messages);
 
@@ -119,7 +121,7 @@ class SavingsController extends Controller
     public function show(Saving $saving)
     {
         $saving_balance = SavingBalance::where('saving_id', $saving->id)->latest()->first();
-        $date = ($saving_balance->creation_date) ? $saving_balance->creation_at : $saving_balance->created_at;
+        $date = ($saving->creation_date) ? $saving->creation_at : $saving->created_at;
         $created_date = Carbon::parse($date, 'UTC');
         $now = Carbon::now();
         $diff = $created_date->diffInDays($now);
@@ -131,6 +133,7 @@ class SavingsController extends Controller
         $saving_amount = ($diff > 0) ? $saving_balance->balance+$interest_amount : $saving_balance->balance;
 
         return view('savings.show')
+            ->with('saving', $saving)
             ->with('saving_balances', SavingBalance::where('saving_id', $saving->id)->get())
             ->with('interest_amount', $interest_amount)
             ->with('saving_amount', $saving_amount);
@@ -158,7 +161,6 @@ class SavingsController extends Controller
         $custom_messages = [
             'required' => "कृपया यो फिल्ड खाली नराख्नुहोस्",
             'numeric' => "कृपया यस फिल्डमा केवल नम्बरहरू राख्नुहोस्",
-            'share_id.unique' => "यस आईडीको बचत खाता पहिले नै अवस्थित छ"
         ];
         $this->validate($request, $rules, $custom_messages);
 
@@ -170,6 +172,8 @@ class SavingsController extends Controller
             $saving->money = $request->money;
             $saving->interest = $request->interest;
             $saving->acc_no = $request->acc_no;
+            $saving->description = $request->description;
+            $saving->remarks = $request->remarks;
             $saving->creation_date = $request->creation_date;
             $saving->save();
 
@@ -232,6 +236,10 @@ class SavingsController extends Controller
                 $balance_old->interest_amount = $request->interest_amount;
                 $balance_old->saving_amount = $request->saving_amount;
                 $balance_old->save();
+
+                $saving = Saving::find($id);
+                $saving->money = $request->saving_amount+$request->amount;
+                $saving->save();
                 
                 DB::commit();
 

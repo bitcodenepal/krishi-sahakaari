@@ -20,8 +20,9 @@ class CreateLoansTable extends Migration
                 ->references('id')->on('users');
             $table->unsignedBigInteger('share_no')->foreign('share_no')->references('no')->on('shares');
             $table->string("loan_type")->charset('utf8')->collation('utf8_unicode_ci');
-            $table->unsignedBigInteger('amount');
+            $table->decimal('amount',12,5);
             $table->mediumInteger('interest');
+            $table->string('remarks')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
             $table->string('creation_date')->charset('utf8')->collation('utf8_unicode_ci')->nullable();
             $table->timestamps();
         });

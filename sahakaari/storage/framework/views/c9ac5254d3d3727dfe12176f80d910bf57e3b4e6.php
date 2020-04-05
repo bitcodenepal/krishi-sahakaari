@@ -187,6 +187,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-sticky-note"></i></span>
                                     </div>
+                                    <a rel="nofollow" href="http://naya.com.np"; title="Nepali Social Network" class="naya_convert">naya.com.np</a>
                                     <input type="text" name="description"
                                         class="form-control" placeholder="विवरण">
                                 </div>
@@ -199,6 +200,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-pencil-alt"></i></span>
                                     </div>
+                                    <a rel="nofollow" href="http://naya.com.np"; title="Nepali Social Network" class="naya_convert">naya.com.np</a>
                                     <input type="text" name="remarks"
                                         class="form-control" placeholder="कैफियत">
                                 </div>
@@ -248,10 +250,10 @@
             $("#share-id").change(function() {
                 let accId = $("#share-id").val();
                 $.get("<?php echo e(route('get-share-details')); ?>", {accId}, function(response) {
-                    $("#name").attr('value', response.share[0].name);
-                    $("#address").attr('value', response.share[0].address);
-                    $("#contact-no").attr('value', response.share[0].contact_no);
-                    $("#balance").attr('value', response.balance)
+                    $("#name").attr('value', response[0].name);
+                    $("#address").attr('value', response[0].address);
+                    $("#contact-no").attr('value', response[0].contact_no);
+                    $("#balance").attr('value', response[0].balance);
                 });
             });          
 

@@ -8,7 +8,7 @@ use App\Services\NepaliCalender;
 
 class LoanBalance extends Model
 {
-    protected $fillable = ['user_id', 'loan_id', 'amount', 'payment', 'interest', 'extra_interest', 'remarks', 'creation_date'];
+    protected $fillable = ['user_id', 'loan_id', 'amount', 'payment', 'interest', 'extra_interest', 'remarks', 'creation_date', 'interest_amount', 'loan_amount', 'loan_duration'];
 
     public function getCreatedDateAttribute() {
         $date = $this->created_at;

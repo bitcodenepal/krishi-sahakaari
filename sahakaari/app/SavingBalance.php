@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Saving;
 use Carbon\Carbon;
 use App\Services\NepaliCalender;
+use Illuminate\Support\Facades\Auth;
 
 class SavingBalance extends Model
 {
-    protected $fillable = ['user_id','saving_id', 'description', 'balance', 'withdraw', 'deposit', 'remarks', 'creation_date'];
+    protected $fillable = ['user_id','saving_id', 'description', 'balance', 'withdraw', 'deposit', 'remarks', 'creation_date', 'interest_amount', 'saving_amount'];
 
     public function savings() {
         return $this->belongsTo(Saving::class);
@@ -35,5 +36,9 @@ class SavingBalance extends Model
         $convertedDate = $engDate->nepToEng($year, $month, $day);
         $newDate = $convertedDate['year'] . "/" . $convertedDate['month'] . "/" . $convertedDate['date'];
         return $newDate;
+    }
+
+    public function scopeUserId($query) {
+        return $query->where('user_id', Auth::user()->id);
     }
 }

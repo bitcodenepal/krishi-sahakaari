@@ -35,8 +35,8 @@
                       <td>Rs. {{ ($balance->deposit == null) ? 0 : $balance->deposit }}</td>
                       <td>Rs. {{ $balance->balance }}</td>
                       <td>{{ $saving->interest }} %</td>
-                      <td>Rs. {{ ($balance->interest_amount) ? $balance->interest_amount : $interest_amount }}</td>
-                      <td>Rs. {{ $balance->saving_amount) ? $balance->saving_amount : $saving_amount }}</td>
+                      <td>Rs. {{ ($balance->interest_amount != 0) ? $balance->interest_amount : $interest_amount }}</td>
+                      <td>Rs. {{ ($balance->saving_amount != 0) ? $balance->saving_amount : $saving_amount }}</td>
                       <td>{{ $balance->remarks }}</td>
                     </tr>
                   @endforeach
@@ -65,6 +65,7 @@
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-sticky-note"></i></span>
                   </div>
+                  <a rel="nofollow" href="http://naya.com.np"; title="Nepali Social Network" class="naya_convert">naya.com.np</a>
                   <input type="text" name="description"
                       class="form-control" placeholder="विवरण">
                 </div>
@@ -87,29 +88,21 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label">कुल ब्याजदर</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-percent"></i></span>
-                  </div>
-                  <input type="number" name="interest" class="form-control" placeholder="कुल ब्याजदर">
-              </div>
-            </div>
-            <div class="form-group">
                 <label class="control-label"> मिति</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
                   </div>
                   <input type="text" name="creation_date" id="nepaliDate10" class="form-control" placeholder="मिति (YYYY-MM-DD)">
+                </div>
               </div>
-            </div>
               <div class="form-group">
                 <label class="control-label">कैफियत</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-pencil-alt"></i></span>
                   </div>
+                  <a rel="nofollow" href="http://naya.com.np"; title="Nepali Social Network" class="naya_convert">naya.com.np</a>
                   <input type="text" name="remarks"
                       class="form-control" placeholder="कैफियत">
                 </div>

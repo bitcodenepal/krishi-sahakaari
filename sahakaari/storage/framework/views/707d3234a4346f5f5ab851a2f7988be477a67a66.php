@@ -69,7 +69,7 @@
 
     <script>
 
-        $(function () {
+        jQuery(function ($) {
 
             let table = $('.data-table').DataTable({
                 processing: true,
